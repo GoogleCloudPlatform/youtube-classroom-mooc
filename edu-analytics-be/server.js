@@ -22,7 +22,7 @@ const connection = require('./web/app/common/connection');
 routers.map(router => app.use('/eduAnalytics/', router));
 
 app.get('/', (req, res) => {
-    res.send(`Server is Ok ${process.env.TEST}`);
+    res.send(`Server is Ok`);
 })
 
 //Set up swagger jsdoc
