@@ -1,29 +1,35 @@
 const express = require('express');
 const app = express();
-
-require('dotenv').config();
-const routers = require('./web/app/routers');
-const error = require('./web/app/middleware/error');
-
-const swaggerJSDoc = require('swagger-jsdoc');
-const swaggerUi = require('swagger-ui-express');
-const pkg = require('./package.json');
-
 const port = process.env.PORT || 8080;
-
-app.use(express.json());
-
-//error middleware
-app.use(error);
+require('dotenv').config();
 
 //ORM mysql
 const connection = require('./web/app/common/connection');
+const swaggerJSDoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
+const pkg = require('./package.json');
+app.use(express.json());
 
-routers.map(router => app.use('/eduAnalytics/', router));
+const routers = require('./web/app/routers');
+const error = require('./web/app/middleware/error');
+
+const cors = require('cors');
+app.use(cors());
+
+/* const bp = require('body-parser');
+app.use(bp.json());
+app.use(bp.urlencoded({ extended: true })); */
+
 
 app.get('/', (req, res) => {
     res.send(`Server is Ok`);
 })
+
+routers.map(router => app.use('/eduAnalytics/', router));
+
+
+//error middleware
+app.use(error);
 
 //Set up swagger jsdoc
 const swaggerDefinition = {

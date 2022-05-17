@@ -1,5 +1,8 @@
 module.exports = Object.freeze({
-    CREATE_TABLES: 'create table if not exists students(id int primary key auto_increment,email varchar(255)not null,firstname varchar(255)not null,lastname varchar(255)not null);'+
-                    'create table if not exists educators(id int primary key auto_increment,email varchar(255)not null,firstname varchar(255)not null,lastname varchar(255)not null);'+
-                    'CREATE TABLE if not exists playlist (id int primary key auto_increment,title varchar(255) not null,educatorId int,FOREIGN KEY (educatorId) REFERENCES educators(id));',
+    CREATE_TABLES: 'CREATE TABLE if not exists students (StudentId int NOT NULL AUTO_INCREMENT,Email varchar(255) NOT NULL,FirstName varchar(255) NOT NULL,LastName varchar(255) NOT NULL,PRIMARY KEY (StudentId),UNIQUE (Email));'+
+                    'CREATE TABLE if not exists educators (EducatorId int NOT NULL AUTO_INCREMENT,Email varchar(255) NOT NULL,FirstName varchar(255) NOT NULL,LastName varchar(255) NOT NULL,PRIMARY KEY (EducatorId),UNIQUE (Email));'+
+                    'CREATE TABLE if not exists playlist (PlaylistId int NOT NULL AUTO_INCREMENT,Title varchar(255) NOT NULL,EducatorId int,PRIMARY KEY (PlaylistId),FOREIGN KEY (EducatorId) REFERENCES educators(EducatorId));'+
+                    'CREATE TABLE if not exists video (VideoId int NOT NULL AUTO_INCREMENT,PlaylistId int,YoutubeLink  varchar(2048),PRIMARY KEY (VideoId),FOREIGN KEY (PlaylistId) REFERENCES playlist(PlaylistId));'+
+                    'CREATE TABLE if not exists tasks (TaskId int NOT NULL AUTO_INCREMENT,TaskName varchar(255) NOT NULL,PlaylistId int,courseId int,StudentId int,assignedDate DATETIME DEFAULT NOW(),PRIMARY KEY (TaskId),FOREIGN KEY (PlaylistId) REFERENCES playlist(PlaylistId),FOREIGN KEY (StudentId) REFERENCES students(StudentId));'+
+                    'CREATE TABLE if not exists tasks_status (id int NOT NULL AUTO_INCREMENT,TaskId int,StudentId int,Status varchar(255),PRIMARY KEY (id),FOREIGN KEY (TaskId) REFERENCES tasks(TaskId),FOREIGN KEY (StudentId) REFERENCES students(StudentId));',
 })
