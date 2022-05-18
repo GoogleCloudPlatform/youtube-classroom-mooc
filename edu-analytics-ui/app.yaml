@@ -1,0 +1,12 @@
+runtime: nodejs16
+
+env_variables:
+  PORT: 3000
+
+automatic_scaling:
+  max_instances: 10
+
+handlers:
+- url: /.*
+  secure: always
+  script: auto

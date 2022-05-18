@@ -1,0 +1,86 @@
+apiVersion: skaffold/v2beta12
+kind: Config
+metadata:
+  name: citizen-360-app
+requires:
+  - path: ../../common
+    configs: [common]
+build:
+  tagPolicy:
+    gitCommit: {}
+  local:
+    concurrency: 0
+  artifacts:
+  - image: citizen-360-app
+    requires:
+      - image: common
+        alias: BASE_IMG
+    sync:
+      infer:
+        - '**/*.py'
+        - '**/*.json'
+portForward:
+- resourceType: service
+  resourceName: citizen-360-app
+  port: 80
+  localPort: 8888
+deploy:
+  kustomize:
+    paths:
+    - ./kustomize/minikube
+profiles:
+- name: custom
+  build:
+    googleCloudBuild: {}
+    artifacts:
+    - image: sample-service
+      requires:
+      - image: common
+        alias: BASE_IMG
+  deploy:
+    kustomize:
+      paths:
+      - ./kustomize/custom
+- name: prod_non_cloudbuild
+  deploy:
+    kustomize:
+      paths:
+      - ./kustomize/prod
+- name: prod
+  deploy:
+    kustomize:
+      paths:
+      - ./kustomize/prod
+  build:
+    googleCloudBuild: {}
+    artifacts:
+    - image: citizen-360-app
+      docker:
+        cacheFrom:
+          - citizen-360-app
+          - citizen-360-app:latest
+      requires:
+      - image: common
+        alias: BASE_IMG
+- name: dev
+  activation:
+  - kubeContext: gke_ps-ris-dev_us-central1_default-cluster
+  build:
+    googleCloudBuild: {}
+    artifacts:
+    - image: gcr.io/ps-ris-dev/sample-service
+      docker:
+        cacheFrom:
+          - gcr.io/ps-ris-dev/sample-service
+          - gcr.io/ps-ris-dev/sample-service:latest
+      requires:
+        - image: gcr.io/ps-ris-dev/common
+          alias: BASE_IMG
+      sync:
+        infer:
+          - '**/*.py'
+          - '**/*.json'
+  deploy:
+    kustomize:
+      paths:
+      - ./kustomize/dev

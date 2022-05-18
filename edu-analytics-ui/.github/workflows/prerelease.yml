@@ -1,0 +1,26 @@
+name: prerelease
+on:
+  push:
+    branches-ignore:
+      - main
+jobs:
+  nextjs-build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: "Checkout repo"
+      uses: actions/checkout@v2
+    - name: "Setup Node v16"
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16'
+        cache: 'npm'
+    - name: Load .env file
+      uses: xom9ikk/dotenv@v1.0.2
+      with:
+        mode: development
+    - name: "Install Node dependencies"
+      run: npm install
+    - name: "Jest tests"
+      run: npm test
+    - name: "NextJS Build"
+      run: npm run build-prod
