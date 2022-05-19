@@ -27,6 +27,33 @@ class StudentController {
             next(error);
         }
     }
+
+    static async fetchStudentAnalytics(req,res,next){
+        try {
+            const data = await StudentEntity.fetchStudentAnalytics(req.params.studentId);
+            res.status(200).send(data);
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    static async createStudentAnalytics(req,res,next){
+        try {
+            const data = await StudentEntity.createStudentAnalytics(req.body);
+            res.status(200).send(data);
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    static async updateStudentAnalytics(req,res,next){
+        try {
+            const data = await StudentEntity.updateStudentAnalytics(req.params.studentId,req.body);
+            res.status(200).send(data);
+        } catch (error) {
+            next(error);
+        }
+    }
 }
 
 module.exports = StudentController;
