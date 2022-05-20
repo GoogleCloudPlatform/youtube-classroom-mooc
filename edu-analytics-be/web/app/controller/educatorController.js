@@ -95,7 +95,7 @@ class EducatorController {
 
     static async updateTaskStatus(req, res, next) {
         try {
-            const data = await EducatorEntity.updateTaskStatus(req.params.taskId, req.params.status);
+            const data = await EducatorEntity.updateTaskStatus(req.params.taskId,req.params.studentId, req.params.status);
             if (data.affectedRows && data.affectedRows > 0) {
                 res.status(201).send(data);
             } else {

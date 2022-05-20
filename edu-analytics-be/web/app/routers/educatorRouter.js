@@ -21,6 +21,29 @@ router.get('/test',(req,res)=>{
 
 /**
  * @swagger
+ * definitions:
+ *    Youtube:
+ *        type: "object"
+ *        properties:
+ *              videoId:
+ *                  type: "string"
+ *                  example: "https"
+ *              title:
+ *                  type: "string"
+ *                  example: "https"
+ *              description:
+ *                  type: "string"
+ *                  example: "https"
+ *              channelTitle:
+ *                  type: "string"
+ *                  example: "https"
+ *              thumbnail:
+ *                  type: "string"
+ *                  example: "{thubmbnail objects}"
+ */
+
+/**
+ * @swagger
  * /playlist:
  *  post:
  *      tags:
@@ -40,9 +63,10 @@ router.get('/test',(req,res)=>{
  *                      educatorId:
  *                         type: "integer"
  *                         example: "1"
- *                      youtubeLinks:
+ *                      playlists:
  *                          type: "array"
- *                          example: ["https://link.com","https://example.com"]
+ *                          items:
+ *                              $ref: '#definitions/Youtube'
  *      responses:
  *          201:
  *              description: "Successfull operation"
@@ -67,9 +91,10 @@ router.post('/playlist', EducatorController.createPlaylist);
  *            schema:
  *               type: "object"
  *               properties:
- *                      youtubeLinks:
+ *                      playlists:
  *                          type: "array"
- *                          example: ["https://link.com","https://example.com"]
+ *                          items:
+ *                              $ref: '#definitions/Youtube'
  *      responses:
  *          201:
  *              description: "Successfull operation"
@@ -212,7 +237,7 @@ router.post('/taskStatus',EducatorController.taskStatus);
 
 /**
  * @swagger
- * /taskStatus/{taskId}/{status}:
+ * /taskStatus/{taskId}/student/{studentId}/{status}:
  *  put:
  *      tags:
  *          - Educator
@@ -222,6 +247,9 @@ router.post('/taskStatus',EducatorController.taskStatus);
  *      parameters:
  *              - in: path
  *                name: taskId
+ *                required: true
+ *              - in: path
+ *                name: studentId
  *                required: true
  *              - in: path
  *                name: status
@@ -234,6 +262,6 @@ router.post('/taskStatus',EducatorController.taskStatus);
  *             200:
  *                description: "Updated Successfully"
  */
-router.put('/taskStatus/:taskId/:status',EducatorController.updateTaskStatus);
+router.put('/taskStatus/:taskId/student/:studentId/:status',EducatorController.updateTaskStatus);
 
 module.exports = router;

@@ -32,7 +32,7 @@ class StudentEntity {
     }
 
     static async createStudentAnalytics(body) {
-        const sql = `INSERT INTO student_analytics (videoId,studentId,taskStatus,videoStatus) VALUES (${body.videoId},${body.studentId},'${body.taskStatus}','${body.videoStatus}');`;
+        const sql = `INSERT INTO student_analytics (videoId,studentId,taskStatus,videoStatus) VALUES ('${body.videoId}',${body.studentId},'${body.taskStatus}','${body.videoStatus}');`;
         console.log(sql);
         try {
             const data = await query(sql);
@@ -43,7 +43,7 @@ class StudentEntity {
     }
 
     static async updateStudentAnalytics(studentId,body) {
-        const sql = `UPDATE student_analytics SET taskStatus = '${body.taskStatus}', videoStatus = '${body.videoStatus}' WHERE studentId=${studentId} and videoId=${body.videoId};`;
+        const sql = `UPDATE student_analytics SET taskStatus = '${body.taskStatus}', videoStatus = '${body.videoStatus}' WHERE studentId=${studentId} and videoId='${body.videoId}';`;
         console.log(sql);
         try {
             const data = await query(sql);

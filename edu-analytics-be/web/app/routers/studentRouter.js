@@ -98,10 +98,10 @@ router.get('/student/:studentId/tasks/:status',StudentController.getStudentTasks
  *                          type: "string"
  *                          example: "123"
  *                      playlistId:
- *                          type: "string"
+ *                          type: "integer"
  *                          example: "123"
  *                      studentId:
- *                          type: "string"
+ *                          type: "integer"
  *                          example: "124"
  *                      taskStatus:
  *                          type: "string"
@@ -136,8 +136,8 @@ router.get('/student/:studentId/tasks/:status',StudentController.getStudentTasks
  *               type: "object"
  *               properties:
  *                      videoId:
- *                          type: "integer"
- *                          example: "123"
+ *                          type: "string"
+ *                          example: "123https"
  *                      taskStatus:
  *                          type: "string"
  *                          example: "Inprogress"
