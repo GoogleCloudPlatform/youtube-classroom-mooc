@@ -26,7 +26,7 @@ class StudentEntity {
     }
 
     static async fetchStudentAnalytics(studentId) {
-        const sql = `SELECT student_analytics.*,video.youtubeLink AS youtubeLink FROM student_analytics JOIN video ON student_analytics.videoId=video.videoId WHERE student_analytics.studentId=${studentId} and video.videoId = student_analytics.videoId;`;
+        const sql = `SELECT student_analytics.*,video.playlistId,video.title,video.description,video.channelTitle,video.thumbnail,video.youtubeLink FROM student_analytics JOIN video ON student_analytics.videoId=video.videoId WHERE student_analytics.studentId=${studentId} and video.videoId = student_analytics.videoId;`;
         const data = await query(sql);
         return data;
     }

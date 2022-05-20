@@ -67,7 +67,7 @@ class EducatorEntity {
             const students = await query(`SELECT * FROM students;`);
             dbConnection.query(
                 'INSERT INTO tasks_status(taskId,studentId,status) VALUES ?',
-                [students.map(item => [body.taskId, item.StudentId, 'NotStarted'])],
+                [students.map(item => [body.taskId, item.studentId, 'NotStarted'])],
                 (error, results) => {
                     console.log(error)
                 }
