@@ -1,4 +1,4 @@
-# Start the Application loclly
+# Test the Application Locally
 
 Run 
 ```bash
