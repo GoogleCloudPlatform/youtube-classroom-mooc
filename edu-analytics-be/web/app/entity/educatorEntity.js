@@ -26,9 +26,28 @@ class EducatorEntity {
         return lastRowId;
     }
 
+    static async getAllVideos(playlistId) {
+        dbConnection.query(`SELECT * FROM video where playlistId=${playlistId};`, function (err, result, fields) {
+            var resultArray = Object.values(JSON.parse(JSON.stringify(result)))
+            console.log('result', resultArray);
+            return resultArray;
+        });
+    }
+
     static async getAllPlaylist() {
         const data = await query('SELECT * FROM playlist;');
-        return data;
+        const respArray = [];
+        for (let i = 0; i < data.length; i++) {
+            const response = {
+                playlistId: data[i].playlistId,
+                videos:  Object.values(JSON.parse(JSON.stringify(await this.getPlaylist(data[i].playlistId)))),
+                count: Object.values(JSON.parse(JSON.stringify(await this.getPlaylist(data[i].playlistId)))).length
+            }
+            respArray.push(response);
+        }
+
+
+        return respArray;
     }
 
     static async getPlaylist(playlistId) {
@@ -110,7 +129,7 @@ class EducatorEntity {
     static async addVideosToPlaylist(playlistId, body) {
         body.playlists.forEach((video) => {
             const insertQuery = `INSERT INTO video (videoId,playlistId,title,description,channelTitle,thumbnail,youtubeLink) VALUES ('${video.videoId}',${playlistId},'${video.title}','${video.description}','${video.channelTitle}','${video.thumbnail}','${video.youtubeLink ? video.youtubeLink : null}');`;
-             dbConnection.query(insertQuery, function (err, result, fields) {
+            dbConnection.query(insertQuery, function (err, result, fields) {
                 if (err) console.log('Insert video table:' + err)
             });
         })
