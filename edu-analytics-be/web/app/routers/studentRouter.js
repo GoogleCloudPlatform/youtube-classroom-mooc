@@ -66,7 +66,7 @@ router.get('/student/:studentId/tasks/:status',StudentController.getStudentTasks
  *      tags:
  *          - Student
  *      security: []
- *      summary: Student analytics
+ *      summary: Student analytics by student id
  *      description: Student anayltics
  *      parameters:
  *              - in: path
@@ -119,7 +119,7 @@ router.get('/student/:studentId/tasks/:status',StudentController.getStudentTasks
 
   /**
  * @swagger
- * /student/{studentId}/analytics:
+ * /studentAnalytics/{id}:
  *  put:
  *      tags:
  *          - Student
@@ -128,26 +128,70 @@ router.get('/student/:studentId/tasks/:status',StudentController.getStudentTasks
  *      description: Update student analytics
  *      parameters:
  *          - in: path
- *            name: studentId
+ *            name: id
  *            required: true
  *          - name: body
  *            in: body
  *            schema:
  *               type: "object"
  *               properties:
- *                      videoId:
- *                          type: "string"
- *                          example: "123https"
- *                      taskStatus:
- *                          type: "string"
- *                          example: "Inprogress"
  *                      videoStatus:
  *                          type: "string"
- *                          example: "124"
+ *                          example: "Inprogress"
+ *                          enum:
+ *                              - NotStarted
+ *                              - Inprogress
+ *                              - Completed
+ *                      progress:
+ *                          type: "string"
+ *                          example: "1:23"
  *      responses:
  *             201:
  *                description: "Successfully created"
  */ 
-   router.put('/student/:studentId/analytics',StudentController.updateStudentAnalytics);
+   router.put('/studentAnalytics/:id',StudentController.updateStudentAnalytics);
+
+
+   /**
+ * @swagger
+ * /student/{studentId}/classRoomTask/{classRoomTaskId}/analytics:
+ *  get:
+ *      tags:
+ *          - Student
+ *      security: []
+ *      summary: Student analytics by student id and classromm task id
+ *      description: Student anayltics
+ *      parameters:
+ *              - in: path
+ *                name: studentId
+ *                required: true
+ *              - in: path
+ *                name: classRoomTaskId
+ *                required: true
+ *      responses:
+ *             200:
+ *                description: "Success"
+ */
+ router.get('/student/:studentId/classRoomTask/:classRoomTaskId/:analytics',StudentController.fetchStudentAnalyticsByClassroomTaskId);
+
+
+ /**
+ * @swagger
+ * /student/{email}:
+ *  get:
+ *      tags:
+ *          - Student
+ *      security: []
+ *      summary: Get student details by email
+ *      description: Get student details by email
+ *      parameters:
+ *              - in: path
+ *                name: email
+ *                required: true
+ *      responses:
+ *          201:
+ *              description: "Successfull operation"
+ */
+  router.get('/student/:email', StudentController.getStudentByEmail);
 
 module.exports = router;

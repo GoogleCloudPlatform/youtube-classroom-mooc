@@ -122,6 +122,21 @@ class EducatorController {
 
     }
 
+    
+    static async getEducatorByEmail(req, res, next) {
+        try {
+            const data = await EducatorEntity.getEducatorByEmail(req.params.email);
+            if (data.length > 0) {
+                res.status(200).send(data[0]);
+            } else {
+                res.status(400).send(data);
+            }
+
+        } catch (err) {
+            next(err);
+        }
+
+    }
 
 
 }

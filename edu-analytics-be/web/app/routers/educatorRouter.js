@@ -40,6 +40,9 @@ router.get('/test',(req,res)=>{
  *              thumbnail:
  *                  type: "string"
  *                  example: "{thubmbnail objects}"
+ *              duration:
+ *                  type: "string"
+ *                  example: "12"
  */
 
 /**
@@ -167,6 +170,26 @@ router.post('/playlist', EducatorController.createPlaylist);
 router.post('/educator',EducatorController.createEducator);
 
 
+/**
+ * @swagger
+ * /educator/{email}:
+ *  get:
+ *      tags:
+ *          - Educator
+ *      security: []
+ *      summary: Get educator details by email
+ *      description: Get educator details by email
+ *      parameters:
+ *              - in: path
+ *                name: email
+ *                required: true
+ *      responses:
+ *          201:
+ *              description: "Successfull operation"
+ */
+ router.get('/educator/:email', EducatorController.getEducatorByEmail);
+
+
 
 /**
  * @swagger
@@ -184,17 +207,17 @@ router.post('/educator',EducatorController.createEducator);
  *               type: "object"
  *               properties:
  *                      taskName:
- *                          type: "String"
+ *                          type: "string"
  *                          example: "Story writing"
  *                      playlistId:
  *                          type: "integer"
  *                          example: "1"
  *                      courseId:
- *                          type: "integer"
- *                          example: "10"
- *                      studentId:
- *                          type: "integer"
- *                          example: "16"
+ *                          type: "string"
+ *                          example: "abcd10"
+ *                      classRoomTaskId:
+ *                          type: "string"
+ *                          example: "abc16"
  *      responses:
  *             201:
  *                description: "Successfully created"

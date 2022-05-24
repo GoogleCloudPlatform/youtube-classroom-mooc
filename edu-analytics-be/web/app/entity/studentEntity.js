@@ -25,10 +25,40 @@ class StudentEntity {
         return data;
     }
 
-    static async fetchStudentAnalytics(studentId) {
-        const sql = `SELECT student_analytics.*,video.playlistId,video.title,video.description,video.channelTitle,video.thumbnail,video.youtubeLink FROM student_analytics JOIN video ON student_analytics.videoId=video.videoId WHERE student_analytics.studentId=${studentId} and video.videoId = student_analytics.videoId;`;
-        const data = await query(sql);
+    static async getVideo(videoId) {
+        const data = await query(`SELECT * FROM video where id=${videoId};`);
         return data;
+    }
+
+    static async fetchStudentAnalytics(studentId) {
+        const sql = `SELECT * FROM student_analytics where studentId=${studentId};`;
+        const data = Object.values(JSON.parse(JSON.stringify(await query(sql))));
+        const respArray = [];
+        for (let i = 0; i < data.length; i++) {
+            const resobject = {
+                ...data[i],
+                video: Object.values(JSON.parse(JSON.stringify(await this.getVideo(data[i].videoId))))[0],
+
+            }
+            respArray.push(resobject);
+        }
+        return respArray;
+    }
+
+
+    static async fetchStudentAnalyticsByClassroomTaskId(studentId, classRoomTaskId) {
+        const sql = `SELECT * FROM student_analytics where studentId = ${studentId} and classRoomTaskId='${classRoomTaskId}';`;
+        const data = Object.values(JSON.parse(JSON.stringify(await query(sql))));
+        const respArray = [];
+        for (let i = 0; i < data.length; i++) {
+            const resobject = {
+                ...data[i],
+                video: Object.values(JSON.parse(JSON.stringify(await this.getVideo(data[i].videoId))))[0],
+
+            }
+            respArray.push(resobject);
+        }
+        return respArray;
     }
 
     static async createStudentAnalytics(body) {
@@ -42,15 +72,55 @@ class StudentEntity {
         }
     }
 
-    static async updateStudentAnalytics(studentId,body) {
-        const sql = `UPDATE student_analytics SET taskStatus = '${body.taskStatus}', videoStatus = '${body.videoStatus}' WHERE studentId=${studentId} and videoId='${body.videoId}';`;
+    static async updateStudentAnalytics(id, body) {
+        const sql = `UPDATE student_analytics SET videoStatus = '${body.videoStatus}', videoProgress = '${body.progress}' WHERE id='${id}';`;
         console.log(sql);
         try {
             const data = await query(sql);
+            await this.updateTaskStatus(id);
             return data;
         } catch (err) {
             return err;
         }
+    }
+
+    static async updateTaskStatus(id) {
+        const sql = `SELECT * FROM student_analytics where id=${id};`;
+        const analytics = Object.values(JSON.parse(JSON.stringify(await query(sql))))[0];
+        const notStartedCountQuery = `SELECT  count(*) as count FROM student_analytics where studentId = ${analytics.studentId} and classRoomTaskId='${analytics.classRoomTaskId}' and videoStatus = 'NotStarted';`;
+        const notStartedCount = Object.values(JSON.parse(JSON.stringify(await query(notStartedCountQuery))))[0];
+
+        const inprogressCountQuery = `SELECT  count(*) as count FROM student_analytics where studentId = ${analytics.studentId} and classRoomTaskId='${analytics.classRoomTaskId}' and videoStatus = 'Inprogress';`;
+        const inprogressCount = Object.values(JSON.parse(JSON.stringify(await query(inprogressCountQuery))))[0];
+
+        const completedCountQuery = `SELECT  count(*) as count FROM student_analytics where studentId = ${analytics.studentId} and classRoomTaskId='${analytics.classRoomTaskId}' and videoStatus = 'Completed';`;
+        const completedCount = Object.values(JSON.parse(JSON.stringify(await query(completedCountQuery))))[0];
+
+        let status = 'NotStarted';
+        let completedDate = null;
+        if (notStartedCount.count === 0 && inprogressCount.count === 0 && completedCount.count > 0) {
+            status = 'Completed';
+            completedDate = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60 * 1000).toJSON().slice(0, 19).replace('T', ' ');
+            const updateTaskStatusSql = `UPDATE tasks_status SET status = '${status}',completedDate='${completedDate}' WHERE classRoomTaskId = '${analytics.classRoomTaskId}' AND studentId = ${analytics.studentId};`;
+            console.log('updateTaskStatusSql:', updateTaskStatusSql);
+            await query(updateTaskStatusSql);
+
+        } else if (inprogressCount.count > 0 || completedCount.count > 0) {
+            status = 'Inprogress';
+            const updateTaskStatusSql = `UPDATE tasks_status SET status = '${status}',completedDate=${completedDate} WHERE classRoomTaskId = '${analytics.classRoomTaskId}' AND studentId = ${analytics.studentId};`;
+            console.log('updateTaskStatusSql:', updateTaskStatusSql);
+            await query(updateTaskStatusSql);
+        }
+
+
+    }
+
+
+    static async getStudentByEmail(email) {
+        const sql = `SELECT * FROM students where email = '${email}'`;
+        console.log('query:', sql);
+        const data = await query(sql);
+        return data;
     }
 }
 module.exports = StudentEntity;
