@@ -20,7 +20,7 @@ const Nav = ({
   mainRoutes,
   userRoutes,
 }: {
-  user: User,
+  user: any,
   mainRoutes: INavigationItem[],
   userRoutes: INavigationItem[],
 }) => {
@@ -54,15 +54,15 @@ const Nav = ({
                   </div>
                   <div className="hidden sm:ml-6 sm:flex sm:items-center gap-x-2">
 
-                    <ThemeChanger themes={themes} />
+                    {/* <ThemeChanger themes={themes} /> */}
 
                     {/* Profile dropdown */}
                     <Menu as="div" className="ml-3 relative">
                       <Menu.Button data-testid="user-menu-button"
                         className="max-w-xs bg-base-100 flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">  
                         <span className="sr-only">Open user menu</span>
-                          {user?.photoURL ? 
-                            <img data-testid="user-img" className="h-8 w-8 rounded-full" src={user.photoURL} alt={user.displayName || ''} />
+                          {user.profileObj.imageUrl ?
+                            <img data-testid="user-img" className="h-8 w-8 rounded-full" src={user.profileObj.imageUrl} alt={user.profileObj.name || ''} />
                             : <></>
                           }
                       </Menu.Button>
@@ -135,14 +135,14 @@ const Nav = ({
                 <div className="pt-4 pb-3 border-t border-base-200">
                   <div className="flex items-center px-4">
                     <div className="flex-shrink-0">
-                      {user?.photoURL ? 
-                        <img data-testid="user-img" className="h-8 w-8 rounded-full" src={user.photoURL} alt={user.displayName || ''} />
-                        : <></>
-                      }
+                    {user.profileObj.imageUrl ?
+                            <img data-testid="user-img" className="h-8 w-8 rounded-full" src={user.profileObj.imageUrl} alt={user.profileObj.name || ''} />
+                            : <></>
+                          }
                     </div>
                     <div className="ml-3">
-                      <div className="text-base font-medium text-base-content">{user?.displayName}</div>
-                      <div className="text-sm font-medium text-base-content">{user.email}</div>
+                      <div className="text-base font-medium text-base-content">{user?.profileObj?.name}</div>
+                      <div className="text-sm font-medium text-base-content">{user?.profileObj?.email}</div>
                     </div>
                   </div>
                   <div className="mt-3 space-y-1">

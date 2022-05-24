@@ -4,6 +4,7 @@ import { useTranslation } from 'next-i18next'
 import { Meta } from '@/layout/Meta'
 import Unauthenticated from '@/templates/Unauthenticated'
 import SignInForm from '@/navigation/SignInForm'
+import GoogleSignIn from '@/navigation/GoogleSignIn'
 import { AppConfig } from '@/utils/AppConfig'
 
 const Signin = () => {
@@ -32,7 +33,7 @@ const Signin = () => {
             </div>
 
             <div className="sm:px-20 md:px-10 lg:px-0 xl:px-20">
-              <SignInForm />
+              {/* <SignInForm /> */}<GoogleSignIn />
             </div>
           </div>
 

@@ -1,11 +1,11 @@
 // https://github.com/pmndrs/zusta
 import create from 'zustand'
 
-import { User } from 'firebase/auth'
+//import { User } from 'firebase/auth'
 
 interface IUserState {
-  user: null | User;
-  setUser: (user: null | User) => void;
+  user: null | any;
+  setUser: (user: null | any) => void;
 }
 
 const useStore = create<IUserState>(set => ({

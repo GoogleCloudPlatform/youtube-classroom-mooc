@@ -1,6 +1,7 @@
 import { useTranslation } from 'next-i18next'
 import Student from '@/components/Student';
 import Tutor from '@/components/Tutor';
+import { userStore } from '@/store'
 interface HomeProps {
 
 }
@@ -9,9 +10,8 @@ const Home: React.FunctionComponent<HomeProps> = ({
 
 }) => {
   const { t } = useTranslation('home')
-
-  const isStudent = false;
-
+  const user = userStore(state => state.user)
+  const isStudent = user.profileObj.email === "faculty@sakunchala.altostrat.com" ? false : true;
   return (
 
     <>

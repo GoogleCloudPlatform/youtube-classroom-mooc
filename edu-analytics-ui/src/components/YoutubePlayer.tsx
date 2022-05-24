@@ -11,6 +11,9 @@ const YouTubePlayer : React.FunctionComponent<YouTubePlayer> = ({
     const onPlayerReady :YouTubeProps['onReady'] = (event)=>{
         event.target.pauseVideo();
     }
+    const onPlayerStateChange : YouTubeProps['onStateChange'] = (event)=>{
+        console.log(event);
+    }
     const opts: YouTubeProps['opts'] = {
         height:'400',
         width:'640',
@@ -19,6 +22,8 @@ const YouTubePlayer : React.FunctionComponent<YouTubePlayer> = ({
         }
     }
     return(
-        <YouTube videoId={videoId} opts={opts} onReady={onPlayerReady}/>
+        <YouTube videoId={videoId} opts={opts} onReady={onPlayerReady} onStateChange={onPlayerStateChange} />
     )
 }
+
+export default YouTubePlayer;

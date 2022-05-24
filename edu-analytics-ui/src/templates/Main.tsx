@@ -16,29 +16,23 @@ const Main = (props: IMainProps) => {
   const [isLoading, setLoading] = useState(true)
   const user = userStore(state => state.user)
   const setUser = userStore(state => state.setUser)
-  
+
   // Ensure only authenticated users can view items in the Main template
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(firebaseUser => {
-      setLoading(false)
-      setUser(firebaseUser)
-      if (!firebaseUser) {
-        router.push('/signin')
-      }
-    })
-    return () => unsubscribe()
-  })
-  
-  if (isLoading) return <Loading />
+
+    if (!user) {
+      router.push('/signin')
+    }
+  },[]);
 
   return user
     ? <Authenticated user={user} {...props} />
     : <Unauthenticated {...props} />
-  
+
   // return (
   //   <div className="h-full w-full text-base-content">
   //     {props.meta}
-  
+
   //     <div className="max-w-screen-xl mx-auto min-h-full flex flex-col">
   //       <Navbar user={user} mainRoutes={MainNavigation} userRoutes={UserNavigation} />
   //       <div className="flex-grow px-6 lg:px-8">
@@ -46,8 +40,8 @@ const Main = (props: IMainProps) => {
   //       </div>
   //       <Footer routes={FooterNavigation} />
   //     </div>
-  
+
   //   </div>
   // )
-} 
+}
 export { Main }
