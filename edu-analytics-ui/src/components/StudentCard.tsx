@@ -17,7 +17,7 @@ const StudentCard: React.FunctionComponent<StudentCard> = ({ thumbNail, caption,
       <div className="card-body">
         <h2 className="card-title">{caption}</h2>
         <p>{description}</p>
-        <p>{timeStamp}</p>
+        {/* <p>{timeStamp}</p> */}
       </div>
     </div>
   )

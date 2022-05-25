@@ -158,7 +158,7 @@ const Tutor: React.FunctionComponent<Tutor> = ({
                     <div className="col-span-2">
                         <AddCourse selectOptions={['abc', 'xyz']} videoListSelected={videolistID}/>
                     </div>
-                </div> : <div>Analytics</div>}
+                </div> : <div><iframe src="https://googlecloud.looker.com/dashboards-legacy/sa-looker-myid-dev::sa-looker-myid-dev" title="Edu Analytics"></iframe></div>}
         </>
     )
 }
