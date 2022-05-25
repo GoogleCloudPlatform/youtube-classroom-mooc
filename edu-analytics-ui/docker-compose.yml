@@ -1,0 +1,14 @@
+version: '3'
+services:
+
+  webapp:
+    build:
+      context: ./
+    ports:
+      - 3000:3000
+    volumes:
+      - ./src:/app/src
+      - ./public:/app/public
+      - ./__tests__:/app/__tests__
+      - ./__mocks__:/app/__mocks__
+    restart: on-failure

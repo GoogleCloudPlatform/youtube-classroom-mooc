@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: citizen-360-app
+  labels:
+    app: citizen-360-app
+spec:
+  type: LoadBalancer
+  selector:
+    app: citizen-360-app
+  ports:
+    - name: citizen-360-app
+      port: 80
+      targetPort: 3000
