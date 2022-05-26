@@ -6,5 +6,6 @@ env_variables:
   DB_USER: root
   DB_PASS: (.Y<A-a3}~$Klp""
   DB_NAME: edu-analytics
+  STD_PORTAL: https://classroom.google.com
 beta_settings:
   cloud_sql_instances: edu-classroom-analytics:us-central1:edu-analytics

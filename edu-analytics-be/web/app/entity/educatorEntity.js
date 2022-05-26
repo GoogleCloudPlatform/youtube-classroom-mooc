@@ -89,7 +89,14 @@ class EducatorEntity {
                     title: body.taskName,
                     maxPoints: 100,
                     workType: "ASSIGNMENT",
-                    state: "PUBLISHED"
+                    state: "PUBLISHED",
+                    materials: [
+                        {
+                          link: {
+                            url: process.env.STD_PORTAL
+                          }
+                        }
+                      ]
                 }
             })
 
