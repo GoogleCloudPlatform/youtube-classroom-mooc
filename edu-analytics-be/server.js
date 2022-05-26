@@ -16,6 +16,81 @@ const error = require('./web/app/middleware/error');
 const cors = require('cors');
 app.use(cors());
 
+/*const { google } = require('googleapis');
+const urlParse = require('url-parse');
+const queryParse = require('query-string');
+const axios = require('axios');
+
+app.get('/oauthUrl', (req, res, next) => {
+    const oauth2Client = new google.auth.OAuth2(
+        //clientid
+        "532482101496-tmijs31sk91ohop17lmaq9br96oi758m.apps.googleusercontent.com",
+        //client secret
+        "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",
+        //redirect url
+        "http://localhost:8080/token"
+    );
+    const scopes = [
+        'https://www.googleapis.com/auth/classroom.courses',
+        'https://www.googleapis.com/auth/classroom.coursework.students',
+        'openid email profile',
+    ]
+    const url = oauth2Client.generateAuthUrl({
+        access_type: 'offline',
+        scope: scopes,
+        state: JSON.stringify({
+            callbackUrl: req.body.callbackUrl,
+            userID: req.body.userID
+        })
+    })
+    res.send(url);
+})
+
+app.get('/token', async (req, res) => {
+    const queryUrl = new urlParse(req.url);
+    const code = queryParse.parse(queryUrl.query).code;
+console.log('code:',code);
+    const oauth2Client = new google.auth.OAuth2(
+        //clientid
+        "532482101496-tmijs31sk91ohop17lmaq9br96oi758m.apps.googleusercontent.com",
+        //client secret
+        "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",
+        //redirect url
+        "http://localhost:8080/token"
+    );
+    const tokens = await oauth2Client.getToken(code);
+    console.log('tokens.tokens.access_token:',tokens.tokens.access_token);
+
+
+
+    try {
+        const result = await axios({
+            method: "get",
+            headers: { Authorization: `Bearer ${tokens.tokens.access_token}` },
+            url: 'https://classroom.googleapis.com/v1/courses?courseStates=ACTIVE'
+        })
+        //res.send(result.data);
+    } catch (error) {
+        console.log(error);
+        //res.send('Invalid user').status(400);
+    }
+
+    try {
+        const user = await axios({
+            method: "get",
+            headers: { Authorization: `Bearer ${tokens.tokens.access_token}` },
+            url: `https://www.googleapis.com/oauth2/v1/userinfo`
+        })
+        res.send(user.data);
+    } catch (error) {
+        console.log(error);
+        //res.send('Invalid user').status(400);
+    }
+
+
+});*/
+
+
 /* const bp = require('body-parser');
 app.use(bp.json());
 app.use(bp.urlencoded({ extended: true })); */

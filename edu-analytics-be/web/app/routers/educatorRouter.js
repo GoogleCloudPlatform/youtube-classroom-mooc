@@ -215,9 +215,6 @@ router.post('/educator',EducatorController.createEducator);
  *                      courseId:
  *                          type: "string"
  *                          example: "abcd10"
- *                      classRoomTaskId:
- *                          type: "string"
- *                          example: "abc16"
  *      responses:
  *             201:
  *                description: "Successfully created"
@@ -286,5 +283,21 @@ router.post('/taskStatus',EducatorController.taskStatus);
  *                description: "Updated Successfully"
  */
 router.put('/taskStatus/:taskId/student/:studentId/:status',EducatorController.updateTaskStatus);
+
+
+/**
+ * @swagger
+ * /courses:
+ *  get:
+ *      tags:
+ *          - Educator
+ *      security: []
+ *      summary: fetch courses
+ *      description: fetch courses
+ *      responses:
+ *             200:
+ *                description: "Updated Successfully"
+ */
+ router.get('/courses',EducatorController.pullCourseDataFromClassRoomApi);
 
 module.exports = router;

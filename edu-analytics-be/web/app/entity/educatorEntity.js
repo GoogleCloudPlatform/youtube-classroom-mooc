@@ -2,6 +2,12 @@ const dbConnection = require('../common/connection');
 const util = require('util');
 const query = util.promisify(dbConnection.query).bind(dbConnection);
 
+const { google } = require('googleapis');
+const axios = require('axios');
+
+const urlParse = require('url-parse');
+const queryParse = require('query-string');
+
 class EducatorEntity {
 
     static async createPlaylist(body) {
@@ -69,7 +75,32 @@ class EducatorEntity {
 
     }
 
-    static async assignTask(body) {
+    static async assignTask(token, body) {
+
+
+        try {
+            const result = await axios({
+                method: "POST",
+                headers: { Authorization: `Bearer ${token}` },
+                url: `https://classroom.googleapis.com/v1/courses/${body.courseId}/courseWork`,
+                data: {
+                    assigneeMode: "ALL_STUDENTS",
+                    courseId: body.courseId,
+                    title: body.taskName,
+                    maxPoints: 100,
+                    workType: "ASSIGNMENT",
+                    state: "PUBLISHED"
+                }
+            })
+
+            console.log(result.data);
+            body.classRoomTaskId = result.data.id;
+        } catch (error) {
+            console.log(error);
+            return error.response.status;
+            //res.send(error).status(400);
+        }
+
         const sql = `INSERT INTO tasks(taskName,playlistId,courseId,studentId,classRoomTaskId) VALUES ('${body.taskName}',${body.playlistId},'${body.courseId}',${body.studentId ? body.studentId : null},'${body.classRoomTaskId}');`;
         console.log(sql);
         const data = await query(sql);
@@ -102,9 +133,6 @@ class EducatorEntity {
                     }
                 );
             }
-
-
-
         }
         return data;
     }
@@ -155,6 +183,44 @@ class EducatorEntity {
         console.log('query:', sql);
         const data = await query(sql);
         return data;
+    }
+
+    static async pullCourseDataFromClassRoomApi(token) {
+        let courses;
+        let userData;
+        try {
+            const result = await axios({
+                method: "get",
+                headers: { Authorization: `Bearer ${token}` },
+                url: 'https://classroom.googleapis.com/v1/courses?courseStates=ACTIVE'
+            })
+            courses = result.data.courses;
+        } catch (error) {
+            console.log(error);
+            return error.response.status;
+            //res.send(error).status(400);
+        }
+
+
+        try {
+            const user = await axios({
+                method: "get",
+                headers: { Authorization: `Bearer ${token}` },
+                url: `https://www.googleapis.com/oauth2/v1/userinfo`
+            })
+            userData = user.data;
+        } catch (error) {
+            console.log(error);
+            //res.send('Invalid user').status(400);
+        }
+
+        await query(`DELETE FROM courses WHERE creator='${userData.email}';`);
+
+        await query('INSERT INTO courses(courseId,name,descriptionHeading,ownerId,creator,courseState,creationTime) VALUES ?',
+            [courses.map(item => [item.id, item.name, item.descriptionHeading, item.ownerId, userData.email, item.courseState, new Date(item.creationTime).toJSON().slice(0, 19).replace('T', ' ')])]);
+
+        const result = await query(`SELECT * FROM courses WHERE creator='${userData.email}';`);
+        return result;
     }
 
 

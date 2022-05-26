@@ -52,9 +52,9 @@ class EducatorController {
             const data = await EducatorEntity.createEducator(req.body);
             if (data.affectedRows && data.affectedRows > 0) {
                 res.status(201).send(data);
-            } else if(data.length>0){
+            } else if (data.length > 0) {
                 res.status(200).send(data[0]);
-            }else{
+            } else {
                 res.status(400).send(data);
             }
 
@@ -66,12 +66,14 @@ class EducatorController {
 
     static async assignTask(req, res, next) {
         try {
-            const data = await EducatorEntity.assignTask(req.body);
-            if (data.affectedRows && data.affectedRows > 0) {
+            const token = req.get('Authorization');
+            const data = await EducatorEntity.assignTask(token,req.body);
+            res.status(201).send(data);
+            /*if (data.affectedRows && data.affectedRows > 0) {
                 res.status(201).send(data);
             } else {
                 res.status(400).send(data);
-            }
+            }*/
 
         } catch (err) {
             next(err);
@@ -95,7 +97,7 @@ class EducatorController {
 
     static async updateTaskStatus(req, res, next) {
         try {
-            const data = await EducatorEntity.updateTaskStatus(req.params.taskId,req.params.studentId, req.params.status);
+            const data = await EducatorEntity.updateTaskStatus(req.params.taskId, req.params.studentId, req.params.status);
             if (data.affectedRows && data.affectedRows > 0) {
                 res.status(201).send(data);
             } else {
@@ -109,7 +111,7 @@ class EducatorController {
 
     static async addVideosToPlaylist(req, res, next) {
         try {
-            const data = await EducatorEntity.addVideosToPlaylist(req.params.playlistId,req.body);
+            const data = await EducatorEntity.addVideosToPlaylist(req.params.playlistId, req.body);
             if (data.length > 0) {
                 res.status(200).send(data);
             } else {
@@ -122,7 +124,7 @@ class EducatorController {
 
     }
 
-    
+
     static async getEducatorByEmail(req, res, next) {
         try {
             const data = await EducatorEntity.getEducatorByEmail(req.params.email);
@@ -136,6 +138,12 @@ class EducatorController {
             next(err);
         }
 
+    }
+
+    static async pullCourseDataFromClassRoomApi(req, res, next) {
+        const token = req.get('Authorization');
+        const data = await EducatorEntity.pullCourseDataFromClassRoomApi(token);
+        res.status(200).send(data);
     }
 
 
