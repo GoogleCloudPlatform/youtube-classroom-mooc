@@ -158,7 +158,6 @@ router.get('/student/:studentId/tasks/:status',StudentController.getStudentTasks
  *  get:
  *      tags:
  *          - Student
- *      security: []
  *      summary: Student analytics by student id and classromm task id
  *      description: Student anayltics
  *      parameters:
@@ -193,5 +192,51 @@ router.get('/student/:studentId/tasks/:status',StudentController.getStudentTasks
  *              description: "Successfull operation"
  */
   router.get('/student/:email', StudentController.getStudentByEmail);
+
+
+
+   /**
+ * @swagger
+ * /user/create/{userType}:
+ *  post:
+ *      tags:
+ *          - User
+ *      summary: Create/add google user into edu analytics
+ *      description: Create/add google user into edu analytics
+ *      parameters:
+ *              - in: path
+ *                name: userType
+ *                required: true
+ *                enum:
+ *                    - student
+ *                    - educator
+ *      responses:
+ *             200:
+ *                description: "Success"
+ */
+router.post('/user/create/:userType',StudentController.addGoogleUser);
+
+
+/**
+ * @swagger
+ * /student/{studentId}/course/{courseId}/analytics:
+ *  get:
+ *      tags:
+ *          - Student
+ *      security: []
+ *      summary: Student analytics by student id and classromm task id
+ *      description: Student anayltics
+ *      parameters:
+ *              - in: path
+ *                name: studentId
+ *                required: true
+ *              - in: path
+ *                name: courseId
+ *                required: true
+ *      responses:
+ *             200:
+ *                description: "Success"
+ */
+ router.get('/student/:studentId/course/:courseId/:analytics',StudentController.fetchStudentAnalyticsByCourseId);
 
 module.exports = router;

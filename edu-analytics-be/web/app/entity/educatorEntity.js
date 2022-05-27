@@ -10,6 +10,22 @@ const queryParse = require('query-string');
 
 class EducatorEntity {
 
+
+    static async getUserInfoByToken(token) {
+        try {
+            const user = await axios({
+                method: "get",
+                headers: { Authorization: `Bearer ${token}` },
+                url: `https://www.googleapis.com/oauth2/v1/userinfo`
+            })
+            const userData = user.data;
+            return userData;
+        } catch (error) {
+            console.log(error);
+            //res.send('Invalid user').status(400);
+        }
+    }
+
     static async createPlaylist(body) {
         const sql = `INSERT INTO playlist (title,educatorId) VALUES ('${body.title}',${body.educatorId});`;
         console.log(sql);
@@ -92,11 +108,11 @@ class EducatorEntity {
                     state: "PUBLISHED",
                     materials: [
                         {
-                          link: {
-                            url: process.env.STD_PORTAL
-                          }
+                            link: {
+                                url: process.env.STD_PORTAL
+                            }
                         }
-                      ]
+                    ]
                 }
             })
 

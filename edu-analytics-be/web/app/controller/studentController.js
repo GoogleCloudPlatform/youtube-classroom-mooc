@@ -28,7 +28,7 @@ class StudentController {
         }
     }
 
-    static async fetchStudentAnalytics(req,res,next){
+    static async fetchStudentAnalytics(req, res, next) {
         try {
             const data = await StudentEntity.fetchStudentAnalytics(req.params.studentId);
             res.status(200).send(data);
@@ -37,7 +37,7 @@ class StudentController {
         }
     }
 
-    static async createStudentAnalytics(req,res,next){
+    static async createStudentAnalytics(req, res, next) {
         try {
             const data = await StudentEntity.createStudentAnalytics(req.body);
             res.status(200).send(data);
@@ -46,18 +46,18 @@ class StudentController {
         }
     }
 
-    static async updateStudentAnalytics(req,res,next){
+    static async updateStudentAnalytics(req, res, next) {
         try {
-            const data = await StudentEntity.updateStudentAnalytics(req.params.id,req.body);
+            const data = await StudentEntity.updateStudentAnalytics(req.params.id, req.body);
             res.status(200).send(data);
         } catch (error) {
             next(error);
         }
     }
 
-    static async fetchStudentAnalyticsByClassroomTaskId(req,res,next){
+    static async fetchStudentAnalyticsByClassroomTaskId(req, res, next) {
         try {
-            const data = await StudentEntity.fetchStudentAnalyticsByClassroomTaskId(req.params.studentId,req.params.classRoomTaskId);
+            const data = await StudentEntity.fetchStudentAnalyticsByClassroomTaskId(req.params.studentId, req.params.classRoomTaskId);
             res.status(200).send(data);
         } catch (error) {
             next(error);
@@ -78,6 +78,27 @@ class StudentController {
             next(err);
         }
 
+    }
+
+    static async addGoogleUser(req, res, next) {
+        try {
+            const token = req.get('Authorization');
+            const data = await StudentEntity.addGoogleUser(token, req.params.userType);
+            res.send(data).status(201);
+        } catch (error) {
+            res.status(400).send(data);
+            next();
+        }
+
+    }
+
+    static async fetchStudentAnalyticsByCourseId(req, res, next) {
+        try {
+            const data = await StudentEntity.fetchStudentAnalyticsByCourseId(req.params.studentId, req.params.courseId);
+            res.status(200).send(data);
+        } catch (error) {
+            next(error);
+        }
     }
 }
 

@@ -1,6 +1,7 @@
 const dbConnection = require('../common/connection');
 const util = require('util');
 const query = util.promisify(dbConnection.query).bind(dbConnection);
+const EducatorEntity = require('./educatorEntity');
 
 class StudentEntity {
     static async createStudent(body) {
@@ -14,6 +15,39 @@ class StudentEntity {
                 return await query(`SELECT * FROM students where email='${body.email}';`);
             }
             return err;
+        }
+
+    }
+
+    static async addGoogleUser(token, userType) {
+        const user = await EducatorEntity.getUserInfoByToken(token);
+
+        if (userType === 'student') {
+            const sql = `INSERT INTO students (email,firstName,lastName) VALUES ('${user.email}','${user.name}','${user.family_name}');`;
+            console.log(sql);
+            try {
+                await query(sql);
+                const data = await query(`SELECT * FROM students where email='${user.email}';`);
+                return data[0];
+            } catch (err) {
+                if (err.code === 'ER_DUP_ENTRY') {
+                    return (await query(`SELECT * FROM students where email='${user.email}';`))[0];
+                }
+                return err;
+            }
+        } else if (userType === 'educator') {
+            const sql = `INSERT INTO educators (email,firstName,lastName) VALUES ('${user.email}','${user.name}','${user.family_name}');`;
+            console.log(sql);
+            try {
+                await query(sql);
+                const data = await query(`SELECT * FROM educators where email='${user.email}';`);
+                return data[0];
+            } catch (err) {
+                if (err.code === 'ER_DUP_ENTRY') {
+                    return (await query(`SELECT * FROM educators where email='${user.email}';`))[0];
+                }
+                return err;
+            }
         }
 
     }
@@ -122,5 +156,23 @@ class StudentEntity {
         const data = await query(sql);
         return data;
     }
+
+
+    static async fetchStudentAnalyticsByCourseId(studentId, courseId) {
+        const sql = `SELECT * FROM student_analytics where studentId = ${studentId} and courseId='${courseId}';`;
+        const data = Object.values(JSON.parse(JSON.stringify(await query(sql))));
+        const respArray = [];
+        for (let i = 0; i < data.length; i++) {
+            const resobject = {
+                ...data[i],
+                video: Object.values(JSON.parse(JSON.stringify(await this.getVideo(data[i].videoId))))[0],
+
+            }
+            respArray.push(resobject);
+        }
+        return respArray;
+    }
+
+
 }
 module.exports = StudentEntity;

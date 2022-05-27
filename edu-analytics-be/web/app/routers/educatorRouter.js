@@ -197,7 +197,6 @@ router.post('/educator',EducatorController.createEducator);
  *  post:
  *      tags:
  *          - Educator
- *      security: []
  *      summary: Create and Assign new task to a student or class
  *      description: Creating a new task
  *      parameters:
@@ -291,7 +290,6 @@ router.put('/taskStatus/:taskId/student/:studentId/:status',EducatorController.u
  *  get:
  *      tags:
  *          - Educator
- *      security: []
  *      summary: fetch courses
  *      description: fetch courses
  *      responses:
