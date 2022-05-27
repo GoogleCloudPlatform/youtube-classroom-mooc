@@ -173,6 +173,10 @@ class StudentEntity {
         return respArray;
     }
 
+    static async getStudentCourses(){
+        return await query('SELECT * FROM courses;');
+    }
+
 
 }
 module.exports = StudentEntity;

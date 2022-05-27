@@ -100,6 +100,15 @@ class StudentController {
             next(error);
         }
     }
+
+    static async getStudentCourses(req, res, next) {
+        try {
+            const data = await StudentEntity.getStudentCourses();
+            res.status(200).send(data);
+        } catch (error) {
+            next(error);
+        }
+    }
 }
 
 module.exports = StudentController;
