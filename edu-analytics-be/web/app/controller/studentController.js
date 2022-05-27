@@ -101,7 +101,7 @@ class StudentController {
         }
     }
 
-    static async getStudentCourses(req, res, next) {
+    static async getStudentCourseList(req, res, next) {
         try {
             const data = await StudentEntity.getStudentCourses();
             res.status(200).send(data);

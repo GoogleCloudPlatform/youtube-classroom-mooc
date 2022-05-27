@@ -216,7 +216,6 @@ router.get('/student/:studentId/tasks/:status',StudentController.getStudentTasks
  */
 router.post('/user/create/:userType',StudentController.addGoogleUser);
 
-
 /**
  * @swagger
  * /student/{studentId}/course/{courseId}/analytics:
@@ -240,18 +239,5 @@ router.post('/user/create/:userType',StudentController.addGoogleUser);
  router.get('/student/:studentId/course/:courseId/:analytics',StudentController.fetchStudentAnalyticsByCourseId);
 
 
-  /**
- * @swagger
- * /student/courses:
- *  get:
- *      tags:
- *          - Student
- *      summary: Lists student courses
- *      description: Lists student courses
- *      responses:
- *             200:
- *                description: "Success"
- */
-router.get('/student/courses',StudentController.getStudentCourses);
 
 module.exports = router;

@@ -1,6 +1,7 @@
 const router = require('express').Router();
 
 const EducatorController =require('../controller/educatorController');
+const StudentController =require('../controller/studentController');
 
 /**
  * @swagger
@@ -297,5 +298,21 @@ router.put('/taskStatus/:taskId/student/:studentId/:status',EducatorController.u
  *                description: "Updated Successfully"
  */
  router.get('/courses',EducatorController.pullCourseDataFromClassRoomApi);
+
+
+ /**
+ * @swagger
+ * /student/courses:
+ *  get:
+ *      tags:
+ *          - Student
+ *      security: []
+ *      summary: Get student details by email
+ *      description: Get student details by email
+ *      responses:
+ *          201:
+ *              description: "Successfull operation"
+ */
+ router.get('/student/courses',StudentController.getStudentCourseList);
 
 module.exports = router;
