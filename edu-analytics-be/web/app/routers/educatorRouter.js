@@ -307,8 +307,8 @@ router.put('/taskStatus/:taskId/student/:studentId/:status',EducatorController.u
  *      tags:
  *          - Student
  *      security: []
- *      summary: Get student details by email
- *      description: Get student details by email
+ *      summary: Get student courses
+ *      description: Get student courses
  *      responses:
  *          201:
  *              description: "Successfull operation"
