@@ -246,6 +246,50 @@ class EducatorEntity {
         return result;
     }
 
+    static async invitation(token, body) {
+        try {
+            const result = await axios({
+                method: "POST",
+                headers: { Authorization: `Bearer ${token}` },
+                url: `https://classroom.googleapis.com/v1/invitations`,
+                data: {
+                    userId: body.studentId,
+                    courseId: body.courseId,
+                    role: 'STUDENT'
+                }
+            })
+
+            console.log(result.data);
+            if (result.data) {
+                await query(`INSERT INTO invitations(invitationId,userId,courseId,role) VALUES('${result.data.id}','${result.data.userId}','${result.data.courseId}','${result.data.role}');`);
+                return result.data
+            }
+        } catch (error) {
+            console.log(error);
+            return error.response.status;
+            //res.send(error).status(400);
+        }
+    }
+
+    static async enrollStudentToCourse(token, body) {
+        try {
+            const result = await axios({
+                method: "POST",
+                headers: { Authorization: `Bearer ${token}` },
+                url: `https://classroom.googleapis.com/v1/courses/${body.courseId}/students`,
+                data: {
+                    userId: body.studentId,
+                    courseId: body.courseId,
+                }
+            })
+
+            return result.data;
+        } catch (error) {
+            console.log(error);
+            return error.response.status;
+            //res.send(error).status(400);
+        }
+    }
 
 }
 module.exports = EducatorEntity;

@@ -23,7 +23,7 @@ class StudentEntity {
         const user = await EducatorEntity.getUserInfoByToken(token);
 
         if (userType === 'student') {
-            const sql = `INSERT INTO students (email,firstName,lastName) VALUES ('${user.email}','${user.name}','${user.family_name}');`;
+            const sql = `INSERT INTO students (email,firstName,lastName,stdId) VALUES ('${user.email}','${user.name}','${user.family_name}','${user.id}');`;
             console.log(sql);
             try {
                 await query(sql);
@@ -36,7 +36,7 @@ class StudentEntity {
                 return err;
             }
         } else if (userType === 'educator') {
-            const sql = `INSERT INTO educators (email,firstName,lastName) VALUES ('${user.email}','${user.name}','${user.family_name}');`;
+            const sql = `INSERT INTO educators (email,firstName,lastName,eduId) VALUES ('${user.email}','${user.name}','${user.family_name}','${user.id}');`;
             console.log(sql);
             try {
                 await query(sql);

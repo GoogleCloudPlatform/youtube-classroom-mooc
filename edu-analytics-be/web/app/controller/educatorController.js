@@ -147,6 +147,35 @@ class EducatorController {
     }
 
 
+    static async invitation(req, res, next) {
+        try {
+            const token = req.get('Authorization');
+            const data = await EducatorEntity.invitation(token,req.body);
+            if (data) {
+                res.status(201).send(data);
+            } else {
+                res.status(400).send(data);
+            }
+
+        } catch (err) {
+            next(err);
+        }
+    }
+
+    static async enrollStudentToCourse(req, res, next) {
+        try {
+            const token = req.get('Authorization');
+            const data = await EducatorEntity.enrollStudentToCourse(token,req.body);
+            if (data) {
+                res.status(201).send(data);
+            } else {
+                res.status(400).send(data);
+            }
+
+        } catch (err) {
+            next(err);
+        }
+    }
 }
 
 module.exports = EducatorController;

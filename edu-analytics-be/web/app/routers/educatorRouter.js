@@ -315,4 +315,57 @@ router.put('/taskStatus/:taskId/student/:studentId/:status',EducatorController.u
  */
  router.get('/student/courses',StudentController.getStudentCourseList);
 
+
+ /**
+ * @swagger
+ * /invitations:
+ *  post:
+ *      tags:
+ *          - Educator
+ *      summary: Invite student to course
+ *      description: Invite student to course
+ *      parameters:
+ *          - name: body
+ *            in: body
+ *            schema:
+ *               type: "object"
+ *               properties:
+ *                      courseId:
+ *                          type: "string"
+ *                          example: "12345re"
+ *                      studentId:
+ *                          type: "string"
+ *                          example: "103670714513850984378"
+ *      responses:
+ *             201:
+ *                description: "Successfully created"
+ */
+router.post('/invitations',EducatorController.invitation);
+
+/**
+ * @swagger
+ * /enrollStudent:
+ *  post:
+ *      tags:
+ *          - Educator
+ *      summary: Enroll student to course
+ *      description: Enroll student to course
+ *      parameters:
+ *          - name: body
+ *            in: body
+ *            schema:
+ *               type: "object"
+ *               properties:
+ *                      courseId:
+ *                          type: "string"
+ *                          example: "520709412969"
+ *                      studentId:
+ *                          type: "string"
+ *                          example: "103670714513850984378"
+ *      responses:
+ *             201:
+ *                description: "Successfully created"
+ */
+ router.post('/enrollStudent',EducatorController.enrollStudentToCourse);
+
 module.exports = router;
