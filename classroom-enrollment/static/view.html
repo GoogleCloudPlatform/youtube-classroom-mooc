@@ -39,8 +39,9 @@
             }
             response.json().then(function (data) {
               console.log("response ...", data);
-              window.location.href =
-                "https://classroom.google.com/c/NTIwNzA5NDEyOTY5";
+              // window.location.href =
+              //   "https://classroom.google.com/c/NTIwNzA5NDEyOTY5";
+              window.location.href = "/studyhall";
             });
           })
           .catch(function (error) {
@@ -65,6 +66,12 @@
         auth2.signOut().then(function () {
           console.log("User signed out.");
         });
+      }
+    </script>
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+    <script>
+      function onSubmit(token) {
+        document.getElementById("demo-form").submit();
       }
     </script>
     <meta
@@ -98,7 +105,13 @@
         </span>
         Checking enrollment status
       </div>
-      <div class="g-signin2 pt-8" data-onsuccess="onSignIn"></div>
+      <div
+        class="g-signin2 pt-8 g-recaptcha"
+        data-sitekey="6LclfzQgAAAAAKHKg58pbcVpmi44rWbBKBpznNra"
+        data-callback="onSubmit"
+        data-action="submit"
+        data-onsuccess="onSignIn"
+      ></div>
     </div>
 
     <!-- <a href="#" onclick="signOut();">Sign out</a> -->

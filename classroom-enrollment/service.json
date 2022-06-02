@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "edu-classroom-analytics",
+  "private_key_id": "82cb8b6a2f4b4dab1394f3a6ad80681b01f356a0",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDCW6bnxeASP6uX\nzPyXFsf5XqWhUIBJYzbZ5mCB/K9MfXvfrNFuiBEgsIDM9nWEAo0oBlX7e+rDBPrn\nBGS1RFWvaUIV9JV6s2akQoZF/Qhy4fEeG6KACb+wI0SwJPdod+vI8QggiWmzz8aT\nQGNIpGljNbR0w2JPkHXAtU2bfJGV7F1AoIls0QY7Oqe0gA1aaWr6a6g4rSOCyOgZ\n4LEEjVqQ8/VqC7gedUhoHSFEfSOB7X8swZiR0fxHcMAi+OvYMCXbaYb8GEEaeGUs\nP0dt9tx/Jr7h8NtkWoe4ga7+sW7VQp8vpWLUpYlT4OVqGaxxtLVgSHSzHJF23Tci\n2OohZE53AgMBAAECggEAL5Q3PjrzGRSMIau1VBloF/RjEKP/27dViK88heXBVjTL\n29xXIrtdkgaTaVmWOBxVyOwQJXHW7SntcBtjufpCDaBzZKOM6k47vM9qRnzkkhcc\nqzWxqK16RxjDKmnKRUFCL91Nk4WAIlwlbQvQokpZYEeX5xOjn/2pzeS0XHF4xF38\n2MlS56k1inaQ12+x11+0c9i7QoESrz42aIKZaoxHm1u4JDG0Qt9yOIE8Vd9kQzIj\nQ0SXRLlIOiumqm3LJXBQL/RI762YWcTef7EjyUh8/5GuGHhI6P7PZy4mlju58Wgu\n8uX0yhPG52zwhr7ojMl1NLwxhFKFza94HWGwH636JQKBgQDhBlroH+PkTdZ5i1JG\nduByU0bWlP0vIaaHjvklk5Jnp6R46cIf2ZDaVySR2lx7txasBMVYqVaebzDXP0lm\nYemWCbAW5wV5gewstQAN6X4EpnnMn26aw15fzetUFayzKFHEZ0WGEJPSKrcnU+8H\nBJgdeRDtODSCECberZsin+FTAwKBgQDdHKE98FonJHKsCuaKyYBHGEX3ko+A+eN9\nW1BRKE1/ep9JDvEuDXrJpGD9qDgX8zP45SU5xI4FSUfBSKbbDr3kL4KEUumotL9f\niuc/itWYL8GHGcoXUAysMmYzppwqpMr/9dgoBEskxYQ3ohdZlM/HQFootqfI7vgv\njC6e1ahCfQKBgQDTi3Ds5gYNPGvTyfloCxvH/qgK1PgMVftDV1K8U7aAQebqUP/R\nh2yZBvF3OKxXFfF3d+i7CD9JJMjqojFz0bqR9buYXEkWSODpyqMpcQeqgYLhrkSB\ntAdF08VXQCUiLFZqaJfAiFcfbk7O5yZAF76Vfpo+GOesGlkgYF8Gtv1SVwKBgDrX\nA5GYBGWmLV3bCL6mIJzKuNPJDKcl2IPjaNwv/W+PEhQ/Ba9bpvFB7Q2TVloJPitd\nzyowRBrkBVRKIRzqL14pxnGwHr3mW4bxT9h4+Z4mFzn8gurxQm4Qe2IDVEuEzwCO\nS5dajSSb6zNizxPnpeNAHL343W17KlB83WsnMD+BAoGBAMX/bhzl0gerIZU//J9X\ntcRpVALKSja/kmWULPyvN0t50I61OdINo3GWbn0RzdF/oALAV3i1xF+2312qJHFq\ntccYCprClCGaH5dJHuh5L64lpXLcs3FPNZkUeKA9pKkZYbdPGmOpiPyg4DHihrnj\nPm90D99TthQdUqzVegVAfs9v\n-----END PRIVATE KEY-----\n",
+  "client_email": "enrollment@edu-classroom-analytics.iam.gserviceaccount.com",
+  "client_id": "115780116084445615292",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/enrollment%40edu-classroom-analytics.iam.gserviceaccount.com"
+}

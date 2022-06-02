@@ -1,11 +1,23 @@
-from flask import Flask, jsonify, current_app, request
+from flask import Flask, jsonify, current_app, request, render_template
 from classroom import get_courses, enroll_student
-app = Flask(__name__, static_folder='frontend',)
+
+app = Flask(__name__, static_folder='static', static_url_path='/static')
+# app = Flask(__name__, static_url_path='/static')
 
 
 @app.route("/")
 def index():
     return current_app.send_static_file('view.html')
+
+
+@app.route("/studyhall")
+def studyhall():
+    return current_app.send_static_file('studyhall.html')
+
+
+# @app.route("/bg.png")
+# def image():
+#     return current_app.render_template('bg.png')
 
 
 @app.route("/courses")
@@ -26,4 +38,4 @@ def enroll():
 
 
 if __name__ == "__main__":
-    app.run(host="127.0.0.1", port=8000, debug=False)
+    app.run(host="127.0.0.1", port=8080, debug=True)
