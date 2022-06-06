@@ -34,12 +34,6 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 
-
-#credentials
-credentials.json
-token.json
-tokensamply.json
-
 # vercel
 .vercel
 
