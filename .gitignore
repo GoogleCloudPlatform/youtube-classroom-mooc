@@ -35,6 +35,11 @@ yarn-error.log*
 .env.production.local
 
 
+#credentials
+credentials.json
+token.json
+tokensamply.json
+
 # vercel
 .vercel
 

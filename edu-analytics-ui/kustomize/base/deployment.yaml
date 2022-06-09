@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: citizen-360-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: citizen-360-app
+  template:
+    metadata:
+      labels:
+        app: citizen-360-app
+    spec:
+      #serviceAccountName: ksa
+      containers:
+      - name: citizen-360-app
+        image: citizen-360-app
+        imagePullPolicy: Never
+        resources:
+          requests:
+            cpu: "250m"
+            memory: "100Mi"
+          limits:
+            memory: "5000Mi"
+            cpu: "2000m"
+        ports:
+        - containerPort: 3000
