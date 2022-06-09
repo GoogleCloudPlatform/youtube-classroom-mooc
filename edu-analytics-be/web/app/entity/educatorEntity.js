@@ -92,9 +92,8 @@ class EducatorEntity {
     }
 
     static async assignTask(token, body) {
-
-
         try {
+            const video = Object.values(JSON.parse(JSON.stringify(await query(`SELECT * FROM video where playlistId=${body.playlistId} LIMIT 1;`))));
             const result = await axios({
                 method: "POST",
                 headers: { Authorization: `Bearer ${token}` },
@@ -109,7 +108,7 @@ class EducatorEntity {
                     materials: [
                         {
                             link: {
-                                url: process.env.STD_PORTAL
+                                url: `${process.env.STD_PORTAL}?courseId=${body.courseId}&videoId=${video[0].videoId}`
                             }
                         }
                     ]
