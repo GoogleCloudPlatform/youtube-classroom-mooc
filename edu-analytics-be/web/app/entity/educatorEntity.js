@@ -2,11 +2,8 @@ const dbConnection = require('../common/connection');
 const util = require('util');
 const query = util.promisify(dbConnection.query).bind(dbConnection);
 
-const { google } = require('googleapis');
 const axios = require('axios');
 
-const urlParse = require('url-parse');
-const queryParse = require('query-string');
 
 class EducatorEntity {
 
@@ -39,7 +36,7 @@ class EducatorEntity {
 
         body.playlists.forEach((video) => {
             const insertQuery = `INSERT INTO video (videoId,playlistId,title,description,channelTitle,thumbnail,youtubeLink,duration) VALUES ('${video.videoId}',${lastRowId[0].playlistId},'${video.title}','${video.description}','${video.channelTitle}','${video.thumbnail}','${video.youtubeLink ? video.youtubeLink : null}','${video.duration}');`;
-            dbConnection.query(insertQuery, function (err, result, fields) {
+            dbConnection.query(insertQuery, function (err) {
                 if (err) console.log('Insert video table:' + err)
             });
         })
@@ -49,7 +46,7 @@ class EducatorEntity {
     }
 
     static async getAllVideos(playlistId) {
-        dbConnection.query(`SELECT * FROM video where playlistId=${playlistId};`, function (err, result, fields) {
+        dbConnection.query(`SELECT * FROM video where playlistId=${playlistId};`, function (err, result) {
             return result;
         });
     }
@@ -140,7 +137,7 @@ class EducatorEntity {
             dbConnection.query(
                 'INSERT INTO tasks_status(taskId,studentId,status,courseId,classRoomTaskId) VALUES ?',
                 [students.map(item => [body.taskId, item.studentId, 'NotStarted', body.courseId, body.classRoomTaskId])],
-                (error, results) => {
+                (error) => {
                     console.log(error)
                 }
             );
@@ -150,7 +147,7 @@ class EducatorEntity {
                 dbConnection.query(
                     'INSERT INTO student_analytics(videoId,studentId,videoStatus,videoProgress,playlistId,courseId,classRoomTaskId) VALUES ?',
                     [students.map(item => [videos[i].id, item.studentId, 'NotStarted', '00', playlistId, body.courseId, body.classRoomTaskId])],
-                    (error, results) => {
+                    (error) => {
                         console.log(error)
                     }
                 );
@@ -193,7 +190,7 @@ class EducatorEntity {
     static async addVideosToPlaylist(playlistId, body) {
         body.playlists.forEach((video) => {
             const insertQuery = `INSERT INTO video (videoId,playlistId,title,description,channelTitle,thumbnail,youtubeLink,duration) VALUES ('${video.videoId}',${playlistId},'${video.title}','${video.description}','${video.channelTitle}','${video.thumbnail}','${video.youtubeLink ? video.youtubeLink : null}','${video.duration}');`;
-            dbConnection.query(insertQuery, function (err, result, fields) {
+            dbConnection.query(insertQuery, function (err) {
                 if (err) console.log('Insert video table:' + err)
             });
         })
@@ -287,6 +284,65 @@ class EducatorEntity {
             console.log(error);
             return error.response.status;
             //res.send(error).status(400);
+        }
+    }
+
+    static async deletePlaylistId(playlistId, token) {
+        try {
+            const tasks = Object.values(JSON.parse(JSON.stringify(await query(`SELECT taskId,courseId,classRoomTaskId FROM tasks where playlistId=${playlistId};`))));
+            if (tasks.length > 0) {
+                const taskIds = [];
+                tasks.forEach((obj) => {
+                    taskIds.push(obj.taskId);
+                });
+                const taskIdString = taskIds.join();
+                const delTask_status = `DELETE FROM tasks_status WHERE taskId IN(${taskIdString});`;
+                await query(delTask_status);
+                await query(`DELETE FROM student_analytics WHERE playlistId=${playlistId};`);
+                await query(`DELETE FROM video WHERE playlistId = ${playlistId};`);
+                await query(`DELETE FROM tasks WHERE playlistId=${playlistId};`);
+                await query(`DELETE FROM playlist WHERE playlistId=${playlistId};`);
+
+                if (token) {
+                    console.log('token present');
+                    tasks.forEach(async (task) => {
+                        try {
+                            await axios({
+                                method: "DELETE",
+                                headers: { Authorization: `Bearer ${token}` },
+                                url: `https://classroom.googleapis.com/v1/courses/${task.courseId}/courseWork/${task.classRoomTaskId}`
+                            })
+                        } catch (error) {
+                            console.log(error.response)
+                        }
+
+                    })
+                }
+                return {
+                    msg: 'Playlist deleted successfully',
+                    status: 200
+                };
+            } else {
+                const playlist = Object.values(JSON.parse(JSON.stringify(await query(`SELECT * FROM playlist where playlistId=${playlistId};`))));
+                if (playlist.length > 0) {
+                    await query(`DELETE FROM video WHERE playlistId = ${playlistId};`);
+                    await query(`DELETE FROM playlist WHERE playlistId=${playlistId};`);
+                    return {
+                        msg: 'Playlist deleted successfully',
+                        status: 200
+                    };
+                }
+                return {
+                    msg: 'Invalid playlist id',
+                    status: 400
+                }
+            }
+        } catch (error) {
+            console.log(error);
+            return {
+                msg: error,
+                status: 500
+            }
         }
     }
 

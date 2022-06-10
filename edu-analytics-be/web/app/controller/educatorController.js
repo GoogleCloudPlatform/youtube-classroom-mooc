@@ -67,7 +67,7 @@ class EducatorController {
     static async assignTask(req, res, next) {
         try {
             const token = req.get('Authorization');
-            const data = await EducatorEntity.assignTask(token,req.body);
+            const data = await EducatorEntity.assignTask(token, req.body);
             res.status(201).send(data);
             /*if (data.affectedRows && data.affectedRows > 0) {
                 res.status(201).send(data);
@@ -141,16 +141,21 @@ class EducatorController {
     }
 
     static async pullCourseDataFromClassRoomApi(req, res, next) {
-        const token = req.get('Authorization');
-        const data = await EducatorEntity.pullCourseDataFromClassRoomApi(token);
-        res.status(200).send(data);
+        try {
+            const token = req.get('Authorization');
+            const data = await EducatorEntity.pullCourseDataFromClassRoomApi(token);
+            res.status(200).send(data);
+        } catch (err) {
+            next(err);
+        }
+
     }
 
 
     static async invitation(req, res, next) {
         try {
             const token = req.get('Authorization');
-            const data = await EducatorEntity.invitation(token,req.body);
+            const data = await EducatorEntity.invitation(token, req.body);
             if (data) {
                 res.status(201).send(data);
             } else {
@@ -165,13 +170,23 @@ class EducatorController {
     static async enrollStudentToCourse(req, res, next) {
         try {
             const token = req.get('Authorization');
-            const data = await EducatorEntity.enrollStudentToCourse(token,req.body);
+            const data = await EducatorEntity.enrollStudentToCourse(token, req.body);
             if (data) {
                 res.status(201).send(data);
             } else {
                 res.status(400).send(data);
             }
 
+        } catch (err) {
+            next(err);
+        }
+    }
+
+    static async deletePlaylistId(req, res, next) {
+        try {
+            const token = req.get('Authorization');
+            const data = await EducatorEntity.deletePlaylistId(req.params.id, token);
+            res.status(data.status).send(data);
         } catch (err) {
             next(err);
         }

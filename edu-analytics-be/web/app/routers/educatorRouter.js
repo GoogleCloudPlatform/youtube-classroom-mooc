@@ -368,4 +368,23 @@ router.post('/invitations',EducatorController.invitation);
  */
  router.post('/enrollStudent',EducatorController.enrollStudentToCourse);
 
+
+ /**
+ * @swagger
+ * /playlist/{id}:
+ *  delete:
+ *      tags:
+ *          - Educator
+ *      summary: Delete playlist by playlist id
+ *      description: Delete playlist by playlist id
+ *      parameters:
+ *              - in: path
+ *                name: id
+ *                required: true
+ *      responses:
+ *          201:
+ *              description: "Successfull operation"
+ */
+  router.delete('/playlist/:id', EducatorController.deletePlaylistId);
+
 module.exports = router;
