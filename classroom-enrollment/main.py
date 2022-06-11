@@ -31,7 +31,7 @@ def enroll():
     if request.method == 'POST':
         print(request.json)
         content = request.json
-        result = enroll_student(content["email"], "520709412969", "mhj7kfr")
+        result = enroll_student(content["email"], "532418880209", "4k6mr7m")
         return jsonify(result)
     else:
         return jsonify("Post requests only")
