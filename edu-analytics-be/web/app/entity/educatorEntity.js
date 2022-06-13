@@ -34,11 +34,12 @@ class EducatorEntity {
         const lastRowId = await query(`SELECT * FROM playlist where playlistId=${data.insertId};`);
         console.log('last row id' + JSON.stringify(lastRowId));
 
-        body.playlists.forEach((video) => {
+        body.playlists.forEach(async (video) => {
             const insertQuery = `INSERT INTO video (videoId,playlistId,title,description,channelTitle,thumbnail,youtubeLink,duration) VALUES ('${video.videoId}',${lastRowId[0].playlistId},'${video.title}','${video.description}','${video.channelTitle}','${video.thumbnail}','${video.youtubeLink ? video.youtubeLink : null}','${video.duration}');`;
-            dbConnection.query(insertQuery, function (err) {
+            await query(insertQuery);
+            /*dbConnection.query(insertQuery, function (err) {
                 if (err) console.log('Insert video table:' + err)
-            });
+            });*/
         })
 
 
