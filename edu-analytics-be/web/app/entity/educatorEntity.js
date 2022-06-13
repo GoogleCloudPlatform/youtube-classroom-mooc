@@ -28,18 +28,28 @@ class EducatorEntity {
         console.log(sql);
         /* dbConnection.query(sql, function (err, result, fields) {
             return result;
-        });
- */     console.log(body.youtubeLinks);
+        });*/
         const data = await query(sql);
         const lastRowId = await query(`SELECT * FROM playlist where playlistId=${data.insertId};`);
         console.log('last row id' + JSON.stringify(lastRowId));
-
         body.playlists.forEach(async (video) => {
-            const insertQuery = `INSERT INTO video (videoId,playlistId,title,description,channelTitle,thumbnail,youtubeLink,duration) VALUES ('${video.videoId}',${lastRowId[0].playlistId},'${video.title}','${video.description}','${video.channelTitle}','${video.thumbnail}','${video.youtubeLink ? video.youtubeLink : null}','${video.duration}');`;
-            await query(insertQuery);
-            /*dbConnection.query(insertQuery, function (err) {
+            /*const insertQuery = `INSERT INTO video (videoId,playlistId,title,description,channelTitle,thumbnail,youtubeLink,duration) VALUES ('${video.videoId}',${lastRowId[0].playlistId},'${video.title}','${video.description}','${video.channelTitle}','${video.thumbnail}','${video.youtubeLink ? video.youtubeLink : null}','${video.duration}');`;
+            dbConnection.query(insertQuery, function (err) {
                 if (err) console.log('Insert video table:' + err)
             });*/
+
+            var sql = "INSERT INTO video SET ?";
+            // Connection attained as listed above.
+            dbConnection.query(sql, {
+                videoId: video.videoId, playlistId: video.playlistId, title: video.title,
+                description: video.description, channelTitle: video.channelTitle, thumbnail: video.thumbnail, youtubeLink: video.youtubeLink ? video.youtubeLink : null, duration: video.duration
+            }, function (err) {
+                // check result if err is undefined.
+                if (err) {
+                    console.log('Insert video error:', err);
+                }
+            });
+
         })
 
 
