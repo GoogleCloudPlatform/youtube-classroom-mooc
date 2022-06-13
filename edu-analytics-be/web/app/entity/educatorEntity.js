@@ -41,7 +41,7 @@ class EducatorEntity {
             var sql = "INSERT INTO video SET ?";
             // Connection attained as listed above.
             dbConnection.query(sql, {
-                videoId: video.videoId, playlistId: video.playlistId, title: video.title,
+                videoId: video.videoId, playlistId: (lastRowId[0].playlistId), title: video.title,
                 description: video.description, channelTitle: video.channelTitle, thumbnail: video.thumbnail, youtubeLink: video.youtubeLink ? video.youtubeLink : null, duration: video.duration
             }, function (err) {
                 // check result if err is undefined.
