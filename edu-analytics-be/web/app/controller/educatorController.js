@@ -68,13 +68,7 @@ class EducatorController {
         try {
             const token = req.get('Authorization');
             const data = await EducatorEntity.assignTask(token, req.body);
-            res.status(201).send(data);
-            /*if (data.affectedRows && data.affectedRows > 0) {
-                res.status(201).send(data);
-            } else {
-                res.status(400).send(data);
-            }*/
-
+            res.status(data.status).send(data.msg);
         } catch (err) {
             next(err);
         }

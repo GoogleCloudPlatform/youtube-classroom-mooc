@@ -100,6 +100,14 @@ class EducatorEntity {
     }
 
     static async assignTask(token, body) {
+        const tasks = Object.values(JSON.parse(JSON.stringify(await query(`SELECT * FROM tasks where playlistId =${body.playlistId} AND courseId =${body.courseId} ;`))));
+        if (tasks.length > 0) {
+            return {
+                status: 400,
+                msg: 'Task already assigned for the selected course'
+            }
+        }
+
         try {
             const video = Object.values(JSON.parse(JSON.stringify(await query(`SELECT * FROM video where playlistId=${body.playlistId} LIMIT 1;`))));
             const result = await axios({
@@ -127,7 +135,10 @@ class EducatorEntity {
             body.classRoomTaskId = result.data.id;
         } catch (error) {
             console.log(error);
-            return error.response.status;
+            return {
+               status: error.response.status,
+               msg: error.response.statusText
+            }
             //res.send(error).status(400);
         }
 
@@ -164,7 +175,10 @@ class EducatorEntity {
                 );
             }
         }
-        return data;
+        return {
+            status: 201,
+            msg: data
+        };
     }
 
     static async taskStatus(body) {
