@@ -104,7 +104,7 @@ class EducatorEntity {
         if (tasks.length > 0) {
             return {
                 status: 400,
-                msg: 'Task already assigned for the selected course'
+                msg: 'Selected playlist already assigned to the selected course'
             }
         }
 
