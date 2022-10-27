@@ -153,8 +153,8 @@ class EducatorEntity {
         } catch (error) {
             console.log(error);
             return {
-               status: error.response.status,
-               msg: error.response.statusText
+                status: error.response.status,
+                msg: error.response.statusText
             }
             //res.send(error).status(400);
         }

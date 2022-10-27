@@ -42,7 +42,6 @@ class EducatorController {
             } else {
                 res.status(404).send(data);
             }
-
         } catch (err) {
             next(err);
         }
